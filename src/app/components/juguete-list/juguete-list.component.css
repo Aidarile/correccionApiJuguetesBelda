@@ -1,0 +1,9 @@
+.card:hover {
+    border-color: darkblue;
+    transition-duration: .4s;
+    cursor: pointer;
+}
+
+.card {
+    transition-duration: .4s;
+}

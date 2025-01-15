@@ -1,0 +1,41 @@
+@defer (when apiData) {
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-6">
+            <ngb-pagination
+            [(page)]="currentPage"
+            [collectionSize]="apiData.juguetes.info.total"
+            [pageSize]="9"
+            [ellipses]="true"
+            [rotate]="true"
+            (pageChange)="loadJuguetes()"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row mt-2">
+        @for (juguete of juguetes; track juguete._id) {
+            <div class="col-md-4 my-1">
+                <div class="card shadow">
+                    <img [src]="juguete.imagen" alt="" class="card-img-top">
+                    <div class="card-title">
+                        <h5>{{juguete.nombre}}</h5>
+                    </div>
+                    <div class="card-subtitle">
+                        <span class="badge bg-primary"> {{juguete.categoria}} </span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <p> {{juguete.edadMinima}} </p>
+                        <fa-icon [icon]="faTrashCan" class="text-danger"
+                        (click)="deleteJuguete(juguete)"></fa-icon>
+                        <p> {{juguete.precio | currency:  'EUR'}} </p>
+                    </div>                    
+                </div>
+            </div>     
+        }
+    </div>
+
+} @placeholder () {
+    <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+}

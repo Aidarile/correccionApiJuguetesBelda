@@ -1,0 +1,50 @@
+@defer (when juguete) {
+
+    <div class="row">
+        <div class="col-md-4 offset-md-2"></div>
+            <form [formGroup]="formJuguete">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                    formControlName="nombre"
+                    id="floatingInput"
+                    placeholder="nombre">
+                    <label for="floatingInput">Nombre</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                    formControlName="nombre"
+                    id="floatingInput"
+                    placeholder="categoria">
+                    <label for="floatingInput">Nombre</label>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4 my-1">
+                <div class="card shadow">
+                    <img [src]="juguete.imagen" alt="" class="card-img-top">
+                    <div class="card-title">
+                        <h5>{{juguete.nombre}}</h5>
+                    </div>
+                    <div class="card-subtitle">
+                        <span class="badge bg-primary"> {{juguete.categoria}} </span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <p> {{juguete.edadMinima}} </p>
+                        <fa-icon [icon]="faTrashCan" class="text-danger"
+                        (click)="deleteJuguete(juguete)"></fa-icon>
+                        <p> {{juguete.precio | currency:  'EUR'}} </p>
+                    </div>                    
+                </div>
+            </div>     
+            
+        </div>
+    </div>
+} @placeholder () {
+    <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+}
