@@ -6,10 +6,11 @@ import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { CurrencyPipe } from '@angular/common';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-juguete-list',
-  imports: [NgbPagination, CurrencyPipe, FaIconComponent],
+  imports: [NgbPagination, CurrencyPipe, FaIconComponent, RouterLink],
   templateUrl: './juguete-list.component.html',
   styleUrl: './juguete-list.component.css'
 })
@@ -19,7 +20,7 @@ export class JugueteListComponent {
   apiData!: ApiResponseJuguetes;
   juguetes: Juguete[] = [];
   currentPage: number = 1;
-  protected readonly faTrashCan = faTrashCan;
+  
 
   constructor() {
     this.loadJuguetes();
@@ -42,6 +43,7 @@ export class JugueteListComponent {
     )
   }
 
+  protected readonly faTrashCan = faTrashCan;
 
   deleteJuguete(juguete: Juguete) {
     if (confirm('Desea borrar ' + juguete.nombre + '?')) {

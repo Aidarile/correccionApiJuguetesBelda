@@ -6,4 +6,9 @@
 
 .card {
     transition-duration: .4s;
+    border-radius: 20px!important;
+}
+
+img {
+    border-radius: 20px!important;
 }
