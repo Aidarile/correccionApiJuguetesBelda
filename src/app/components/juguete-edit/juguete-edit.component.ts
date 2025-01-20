@@ -4,7 +4,9 @@ import { JugueteService } from '../../services/juguete.service';
 import { Juguete } from '../../common/interface';
 import { CurrencyPipe } from '@angular/common';
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormValidators } from '../../validators/FormValidators';
 
 
 @Component({
@@ -17,6 +19,7 @@ export class JugueteEditComponent implements OnInit {
   @Input("id") id!: string;
 
   private readonly jugueteSvc: JugueteService = inject(JugueteService)
+  private readonly router: Router = inject(Router);
 
   juguete!: Juguete;
 
@@ -26,11 +29,27 @@ export class JugueteEditComponent implements OnInit {
 
   formJuguete: FormGroup = this.formBuilder.group({
     _id: [''],
-    nombre: [''],
-    precio: [0],
-    categoria: [''],
-    edadMinima: [0],
-    imagen: ['']
+    nombre: ['', 
+      [Validators.required, 
+      Validators.minLength(2), 
+      FormValidators.notOnlyWhiteSpace, 
+      FormValidators.forbiddenNameValidator(/xxx || sex || marranadas/i)]],
+    precio: [0, 
+      [Validators.required, 
+        Validators.min(2)]],
+    categoria: ['', 
+      [Validators.required, 
+        Validators.minLength(2),  
+        FormValidators.notOnlyWhiteSpace, 
+        FormValidators.forbiddenNameValidator(/xxx/i)]],
+    edadMinima: [0, 
+      [Validators.required, 
+        Validators.min(0), 
+        Validators.max(18)]],
+    imagen: ['', 
+      [Validators.required, 
+        Validators.minLength(2), 
+        FormValidators.notOnlyWhiteSpace]]
   })
   
  /* GETTERS */
@@ -71,10 +90,16 @@ export class JugueteEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.formJuguete.invalid) {
+      this.formJuguete.markAllAsTouched();
+      return;
+    }
     if (this.editar) {
       this.jugueteSvc.updateJuguete(this.formJuguete.getRawValue()).subscribe({
         next: value => {
+          alert(value.message);
           console.log('Updated -> list');
+          this.router.navigateByUrl('juguete/list');
         },
         error: err => {
           console.error(err);
@@ -83,8 +108,10 @@ export class JugueteEditComponent implements OnInit {
     } else {
       this.jugueteSvc.addJuguete(this.formJuguete.getRawValue()).subscribe({
         next: value => {
+          alert(value.message);
           console.log('Created -> list');
-        },
+          this.router.navigateByUrl('juguete/list');
+                },
         error: err => {
           console.error(err);
         }
